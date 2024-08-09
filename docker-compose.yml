@@ -1,14 +1,16 @@
 version: '3.3'  
 
 services:
-  db:
+  db_posgres:
     image: postgres:latest
+    ports: 
+      - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: dent
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: develop
     restart: always
   web:
     image: dentbyte
@@ -18,10 +20,12 @@ services:
       context: .
     ports:
       - "8000:8000"
-    depends_on:
-      - db
-    command: python manage.py runserver 0.0.0.0:8000
+    command: ["sh", "./start.sh"]
     volumes:
       - .:/app
+    links:
+      - db_posgres
+    depends_on:
+      - db_posgres
 volumes:
   postgres_data:
