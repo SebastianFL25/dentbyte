@@ -1,2 +1,4 @@
-.env/
-dentbyte/__pycache__
+# Ignore environment file
+.env
+
+__pycache__/
