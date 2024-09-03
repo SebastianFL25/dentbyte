@@ -1,6 +1,23 @@
-version: '3.3'  
+version: '3.7'  
 
 services:
+  web:
+    image: dentbyte
+    container_name: dentbyte
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    links:
+      - db_posgres
+    depends_on:
+      - db_posgres
+    command: ["sh", "./start.sh"]
+    extra_hosts: 
+      - "host.docker.internal:host-gateway"
   db_posgres:
     image: postgres:latest
     ports: 
@@ -11,21 +28,10 @@ services:
       POSTGRES_DB: dent
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: develop
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: db_posgres
     restart: always
-  web:
-    image: dentbyte
-    container_name: dentbyte
-    build:
-      dockerfile: Dockerfile
-      context: .
-    ports:
-      - "8000:8000"
-    command: ["sh", "./start.sh"]
-    volumes:
-      - .:/app
-    links:
-      - db_posgres
-    depends_on:
-      - db_posgres
+    extra_hosts: 
+      - "host.docker.internal:host-gateway"
 volumes:
   postgres_data:
