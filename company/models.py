@@ -28,6 +28,7 @@ class CompanyMembership(models.Model):
 class Clients(models.Model):
 
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    age =models.IntegerField(default=10)
     name = models.CharField(max_length=255)
     address = models.TextField()
     phone = models.CharField(max_length=20)

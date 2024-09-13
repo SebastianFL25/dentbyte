@@ -1,0 +1,26 @@
+{%extends "users/base.html"%}
+{% csrf_token %}
+{% block head_content%}
+<title>Platzigram Sing in</title>
+{%endblock%}
+
+{%block container%}
+    
+    {%if form.error %}
+        <p class="alert alert-danger">Your username and password didn't match</p>
+    {% endif %}
+
+    <form method='post' action="{%url 'users:login'%}">{% csrf_token %}
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" type='text' placeholder='Username' name='username'/>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type='password' placeholder='Password' name='password'/>
+        </div>
+
+
+        <button class="btn btn-primary btn-block mt-5" type = 'submit'> Sing in!</button>
+    </form>
+    <p class="mt-4">Dont'have an account yet? <a href="{%url "users:signup"%}">Sing up here </a></p>
+{%endblock%}
